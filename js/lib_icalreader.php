@@ -57,7 +57,7 @@ class ICal
         }
 
         $lines = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        if (stristr($lines[0], 'BEGIN:VCALENDAR') === false) {
+        if (!$lines || stristr($lines[0], 'BEGIN:VCALENDAR') === false) {
             return false;
         } else {
             // TODO: Fix multiline-description problem (see http://tools.ietf.org/html/rfc2445#section-4.8.1.5)
@@ -221,7 +221,7 @@ class ICal
     public function events()
     {
         $array = $this->cal;
-        return $array['VEVENT'];
+        return isset($array['VEVENT']) ? $array['VEVENT'] : [];
     }
 
     /**
